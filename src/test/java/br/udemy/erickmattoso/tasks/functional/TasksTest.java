@@ -32,7 +32,7 @@ public class TasksTest {
 			driver.findElement(By.id("addTodo")).click();
 			
 			// escrever descri��o
-			driver.findElement(By.id("task")).sendKeys("Teste 5 via Selenium");
+			driver.findElement(By.id("task")).sendKeys("Teste 6 via Selenium");
 			
 			// escrever a data
 			driver.findElement(By.id("dueDate")).sendKeys("10/10/2030");
