@@ -21,101 +21,123 @@ public class TasksTest {
 		driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
 		return driver;
 	}
-	
+
 	@Test
-	public void deveSalvarTarefasComSucesso() throws MalformedURLException {
+	public void deveSalvarTarefaComSucesso() throws MalformedURLException {
 		WebDriver driver = acessarAplicacao();
-		
 		try {
-			// clicar em Add Todo
+		
+			//clicar em Add Todo
 			driver.findElement(By.id("addTodo")).click();
 			
-			// escrever descri��o
-			driver.findElement(By.id("task")).sendKeys("Teste 6 via Selenium");
+			//escrever descrição
+			driver.findElement(By.id("task")).sendKeys("Teste via Selenium");
 			
-			// escrever a data
+			//escrever a data
 			driver.findElement(By.id("dueDate")).sendKeys("10/10/2030");
 			
-			// clicar em salvar
+			//clicar em salvar
 			driver.findElement(By.id("saveButton")).click();
 			
-			// validar a mensagem de sucesso
+			//validar mensagem de sucesso
 			String message = driver.findElement(By.id("message")).getText();
 			Assert.assertEquals("Success!", message);
-		} finally {
-			// fechar o browser
+		} finally {			
+			//fechar o browser
 			driver.quit();
 		}
 	}
 	
 	@Test
-	public void naoDeveSalvarTarefasSemDescricao() throws MalformedURLException {
+	public void naoDeveSalvarTarefaSemDescricao() throws MalformedURLException {
 		WebDriver driver = acessarAplicacao();
 		
-		try {
-			// clicar em Add Todo
+        try {
+			//clicar em Add Todo
 			driver.findElement(By.id("addTodo")).click();
 			
-			// escrever a data
+			//escrever a data
 			driver.findElement(By.id("dueDate")).sendKeys("10/10/2030");
 			
-			// clicar em salvar
+			//clicar em salvar
 			driver.findElement(By.id("saveButton")).click();
 			
-			// validar a mensagem de sucesso
+			//validar mensagem de sucesso
 			String message = driver.findElement(By.id("message")).getText();
 			Assert.assertEquals("Fill the task description", message);
-		} finally {
-			// fechar o browser
+		} finally {			
+			//fechar o browser
 			driver.quit();
 		}
 	}
 	
 	@Test
-	public void naoDeveSalvarTarefasSemData() throws MalformedURLException {
+	public void naoDeveSalvarTarefaSemData() throws MalformedURLException {
 		WebDriver driver = acessarAplicacao();
-		
 		try {
-			// clicar em Add Todo
+		
+			//clicar em Add Todo
 			driver.findElement(By.id("addTodo")).click();
 			
-			// escrever descri��o
+			//escrever descrição
 			driver.findElement(By.id("task")).sendKeys("Teste via Selenium");
 			
-			// clicar em salvar
+			//clicar em salvar
 			driver.findElement(By.id("saveButton")).click();
 			
-			// validar a mensagem de sucesso
+			//validar mensagem de sucesso
 			String message = driver.findElement(By.id("message")).getText();
 			Assert.assertEquals("Fill the due date", message);
-		} finally {
-			// fechar o browser
+		} finally {			
+			//fechar o browser
+			driver.quit();
+		}
+	}
+	
+	@Test
+	public void naoDeveSalvarTarefaComDataPassada() throws MalformedURLException {
+		WebDriver driver = acessarAplicacao();
+		try {
+		
+			//clicar em Add Todo
+			driver.findElement(By.id("addTodo")).click();
+			
+			//escrever descrição
+			driver.findElement(By.id("task")).sendKeys("Teste via Selenium");
+			
+			//escrever a data
+			driver.findElement(By.id("dueDate")).sendKeys("10/10/2010");
+			
+			//clicar em salvar
+			driver.findElement(By.id("saveButton")).click();
+			
+			//validar mensagem de sucesso
+			String message = driver.findElement(By.id("message")).getText();
+			Assert.assertEquals("Due date must not be in past", message);
+		} finally {			
+			//fechar o browser
 			driver.quit();
 		}
 	}
 		
 	@Test
-	public void naoDeveSalvarTarefasComDataPassada() throws MalformedURLException {
+	public void deveRemoverTarefaComSucesso() throws MalformedURLException {
 		WebDriver driver = acessarAplicacao();
-		
 		try {
-			// clicar em Add Todo
+			//inserir tarefa
 			driver.findElement(By.id("addTodo")).click();
-			
-			// escrever descri��o
 			driver.findElement(By.id("task")).sendKeys("Teste via Selenium");
-			
-			// escrever a data
-			driver.findElement(By.id("dueDate")).sendKeys("10/10/2010");
-			
-			// clicar em salvar
+			driver.findElement(By.id("dueDate")).sendKeys("10/10/2030");
 			driver.findElement(By.id("saveButton")).click();
-			
-			// validar a mensagem de sucesso
 			String message = driver.findElement(By.id("message")).getText();
-			Assert.assertEquals("Due date must not be in past", message);
-		} finally {
-			// fechar o browser
+			Assert.assertEquals("Success!", message);
+			
+			//remover a Tarefa
+			driver.findElement(By.xpath("//a[@class='btn btn-outline-danger btn-sm']")).click();
+			message = driver.findElement(By.id("message")).getText();
+			Assert.assertEquals("Success!", message);
+		} finally {			
+			//fechar o browser
 			driver.quit();
 		}
 	}
